@@ -3,12 +3,12 @@ let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
-import axios from "axios";
+const axios = require("axios");
 
 // Function to get the list of books using async-await
 async function getBooksUsingAsyncAwait() {
   try {
-    const response = await axios.get("http://localhost:5000/");
+    const response = await axios.get("http://localhost:5001/");
     return response.data;
   } catch (error) {
     throw error;
@@ -19,7 +19,7 @@ async function getBooksUsingAsyncAwait() {
 function getBookByISBNUsingPromise(isbn) {
   return new Promise((resolve, reject) => {
     axios
-      .get(`http://localhost:5000/isbn/${isbn}`)
+      .get(`http://localhost:5001/isbn/${isbn}`)
       .then((response) => {
         resolve(response.data);
       })
@@ -29,6 +29,31 @@ function getBookByISBNUsingPromise(isbn) {
   });
 }
 
+// Function to get book details by Author using async-await
+async function getBooksByAuthorUsingAsyncAwait(author) {
+  try {
+    const response = await axios.get(`http://localhost:5001/author/${author}`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+// Function to get book details by Title using Promise callbacks
+function getBooksByTitleUsingPromise(title) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`http://localhost:5001/title/${title}`)
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
+}
+
+// registration endpoint
 public_users.post("/register", (req, res) => {
   //Write your code here
   // Retrieve username and password from the request body

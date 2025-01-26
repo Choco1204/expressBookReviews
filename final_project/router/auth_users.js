@@ -50,9 +50,8 @@ regd_users.post("/login", (req, res) => {
   }
 });
 
-// Add a book review
+// Add or modify a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  //Write your code here
   // Retrieve the ISBN from the request parameters
   const isbn = req.params.isbn;
 
